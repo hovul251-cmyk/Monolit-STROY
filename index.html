@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>МОНОЛИТ СТРОЙ | Снабжение строительных объектов и B2B поставки</title>
+    <title>МонолитСтрой — Каркасно-модульные дома «под ключ» в СПб и ЛО</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -17,18 +17,19 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Manrope', 'sans-serif'],
+                        script: ['Caveat', 'cursive'],
                     },
                     colors: {
-                        brand: {
-                            orange: '#EA580C',
-                            orangeDark: '#C2410C',
-                            dark: '#0F172A',
-                            surface: '#1E293B',
-                            border: '#E2E8F0',
-                            bg: '#F8FAFC'
-                        }
+                        forest: {
+                            50: '#F0FDF4',
+                            100: '#E2F3E7',
+                            500: '#2D6A4F',
+                            600: '#1B4332',
+                            700: '#081C15',
+                        },
+                        brandGreen: '#52B788',
+                        limeBadge: '#EAF5E9'
                     }
                 }
             }
@@ -39,215 +40,211 @@
             overflow-x: hidden;
             width: 100%;
             position: relative;
+            background-color: #FFFFFF;
         }
-        /* Кастомный строгий скроллбар */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+        .cta-btn-primary {
+            background-color: #2D6A4F;
+            box-shadow: 0 4px 14px rgba(45, 106, 79, 0.25);
         }
-        ::-webkit-scrollbar-track {
-            background: #F1F5F9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8;
-        }
-        .mono-num {
-            font-feature-settings: "tnum";
-            font-variant-numeric: tabular-nums;
+        .cta-btn-primary:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
-<body class="bg-brand-bg text-slate-800 antialiased flex flex-col min-h-screen">
+<body class="text-slate-900 antialiased font-sans pb-24">
 
-    <!-- ВЕРХНЯЯ ТЕХНИЧЕСКАЯ ПАНЕЛЬ -->
-    <div class="bg-slate-900 border-b border-slate-800 text-xs py-2 px-4">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-slate-300">
-                <span class="inline-flex items-center gap-1.5 text-white">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Склад «Юг-1»: МКАД 32-й км, терминал 4Б
-                </span>
-                <span class="hidden sm:inline text-slate-600">|</span>
-                <span class="text-slate-300">Отгрузка: Пн–Сб 07:00–21:00</span>
-                <span class="hidden sm:inline text-slate-600">|</span>
-                <span class="text-slate-400">Работаем с юр. лицами по ЭДО (с НДС 20%)</span>
+    <!-- ВСПЛЫВАЮЩЕЕ БУРГЕР-МЕНЮ ДЛЯ МОБИЛЬНЫХ -->
+    <div id="mobileMenu" class="fixed inset-0 z-50 bg-white/95 backdrop-blur-md -translate-y-full transition-transform duration-300 flex flex-col p-6">
+        <div class="flex items-center justify-between pb-6 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-forest-600 text-white flex items-center justify-center font-bold text-sm">МС</span>
+                <span class="font-extrabold text-forest-700 tracking-tight text-lg">МонолитСтрой</span>
             </div>
-            <div class="flex items-center gap-4 text-slate-300">
-                <span class="text-slate-400">Отдел оптовых продаж:</span>
-                <a href="tel:+74959124400" class="text-brand-orange font-bold font-mono tracking-wide hover:underline">+7 (495) 912-44-00</a>
-            </div>
+            <button id="closeMenuBtn" class="p-2 text-slate-500 hover:text-slate-900">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div class="flex flex-col gap-5 text-base font-bold text-slate-800 pt-8">
+            <a href="#projects" onclick="toggleMenu()" class="hover:text-forest-500">Проекты домов</a>
+            <a href="#projects" onclick="toggleMenu()" class="hover:text-forest-500">Бани и парные</a>
+            <a href="#projects" onclick="toggleMenu()" class="hover:text-forest-500">Бытовки и хозблоки</a>
+            <a href="#contact-block" onclick="toggleMenu()" class="hover:text-forest-500">Приехать на производство</a>
+            <a href="#contact-block" onclick="toggleMenu()" class="hover:text-forest-500">Контакты</a>
+        </div>
+        <div class="mt-auto pt-6 border-t border-slate-100">
+            <a href="tel:+78126042030" class="block text-xl font-extrabold text-forest-600 mb-1">+7 (812) 604-20-30</a>
+            <p class="text-xs text-slate-400">Производство: Ленобласть, дер. Новосергиевка, 14Б</p>
         </div>
     </div>
 
     <!-- ОСНОВНАЯ ШАПКА -->
-    <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4">
-            <div class="flex items-center justify-between gap-4">
-                
-                <!-- Логотип -->
-                <div class="flex items-center gap-3 shrink-0">
-                    <div class="w-10 h-10 bg-slate-900 text-white rounded flex items-center justify-center font-bold font-mono text-lg tracking-wider border-b-2 border-brand-orange">
-                        МС
-                    </div>
-                    <div>
-                        <div class="font-black tracking-tight text-slate-900 text-lg uppercase leading-none">
-                            Монолит<span class="text-brand-orange">Строй</span>
-                        </div>
-                        <div class="text-[10px] text-slate-500 tracking-wider uppercase font-medium mt-0.5">База стройматериалов B2B/B2C</div>
-                    </div>
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 py-3">
+        <div class="max-w-2xl mx-auto flex items-center justify-between">
+            <!-- Логотип МонолитСтрой -->
+            <a href="#" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-md bg-forest-600 text-white flex items-center justify-center shadow-xs">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M5 21V9l7-5 7 5v12M9 13h6v8H9z"/>
+                    </svg>
                 </div>
-
-                <!-- Строка поиска -->
-                <div class="flex-1 max-w-xl mx-2 hidden md:block">
-                    <div class="relative">
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            placeholder="Поиск по названию или коду артикула (напр. М-300, Волма, ГКЛ)..." 
-                            class="w-full bg-slate-50 border border-slate-300 text-sm rounded px-3 py-2 pl-9 focus:outline-none focus:border-brand-orange focus:bg-white transition-colors"
-                        >
-                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                <div>
+                    <div class="font-extrabold text-forest-700 text-lg leading-tight tracking-tight">
+                        Монолит<span class="text-forest-500">Строй</span>
+                    </div>
+                    <div class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase -mt-0.5">
+                        Каркасно-модульные дома
                     </div>
                 </div>
+            </a>
 
-                <!-- Блок действий и Корзина -->
-                <div class="flex items-center gap-3">
-                    <a href="#calculator" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors">
-                        <i data-lucide="calculator" class="w-4 h-4 text-brand-orange"></i>
-                        Калькулятор стяжки
-                    </a>
-                    
-                    <button 
-                        id="openCartBtn"
-                        class="relative flex items-center gap-2.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded transition-colors active:scale-95 shadow-sm"
-                    >
-                        <i data-lucide="shopping-cart" class="w-4 h-4 text-brand-orange"></i>
-                        <span>Накладная</span>
-                        <span id="cartCountBadge" class="bg-brand-orange text-white text-[11px] font-mono px-1.5 py-0.2 rounded font-bold min-w-[20px] text-center">0</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Поиск для мобильных -->
-            <div class="mt-2.5 md:hidden">
-                <div class="relative">
-                    <input 
-                        type="text" 
-                        id="searchInputMobile" 
-                        placeholder="Поиск по артикулу или названию..." 
-                        class="w-full bg-slate-50 border border-slate-300 text-sm rounded px-3 py-2 pl-9 focus:outline-none focus:border-brand-orange focus:bg-white"
-                    >
-                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Быстрая навигация по категориям -->
-        <div class="bg-slate-50 border-t border-slate-200 px-4 py-1.5 overflow-x-auto">
-            <div class="max-w-7xl mx-auto flex items-center gap-2 text-xs font-medium shrink-0">
-                <span class="text-slate-400 shrink-0">Категории:</span>
-                <button onclick="filterCategory('all')" class="cat-pill active px-2.5 py-1 rounded bg-slate-900 text-white shrink-0">Все позиции</button>
-                <button onclick="filterCategory('dry-mix')" class="cat-pill px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 hover:border-slate-400 shrink-0">Сухие смеси</button>
-                <button onclick="filterCategory('sheet')" class="cat-pill px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 hover:border-slate-400 shrink-0">Гипсокартон и профиль</button>
-                <button onclick="filterCategory('insulation')" class="cat-pill px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 hover:border-slate-400 shrink-0">Теплоизоляция</button>
-                <button onclick="filterCategory('fasteners')" class="cat-pill px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 hover:border-slate-400 shrink-0">Крепеж и расходники</button>
+            <!-- Телефон и бургер -->
+            <div class="flex items-center gap-3">
+                <a href="tel:+78126042030" class="text-sm font-extrabold text-slate-900 tracking-tight hover:text-forest-600">
+                    +7 812 604-20-30
+                </a>
+                <button id="openMenuBtn" class="p-1.5 text-slate-700 hover:text-slate-900">
+                    <i data-lucide="menu" class="w-6 h-6 stroke-[2.2]"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-1">
-        
-        <!-- ИНФОРМАЦИОННЫЙ СТАТУС-БАР -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-            <div class="p-3 bg-white border border-slate-200 rounded flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-200">
-                    <i data-lucide="truck" class="w-5 h-5"></i>
-                </div>
-                <div class="text-xs">
-                    <div class="font-bold text-slate-900">Доставка день в день</div>
-                    <div class="text-slate-500">По Москве и МО манипуляторами и шаландами</div>
-                </div>
-            </div>
-            
-            <div class="p-3 bg-white border border-slate-200 rounded flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-200">
-                    <i data-lucide="scale" class="w-5 h-5"></i>
-                </div>
-                <div class="text-xs">
-                    <div class="font-bold text-slate-900">Точный учет тоннажа</div>
-                    <div class="text-slate-500">Автоматический подсчет массы партии в корзине</div>
-                </div>
-            </div>
+    <!-- КОНТЕНТНАЯ ЧАСТЬ ПО САЙТУ-ОРИЕНТИРУ -->
+    <main class="max-w-2xl mx-auto px-4 pt-3">
 
-            <div class="p-3 bg-white border border-slate-200 rounded flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
-                    <i data-lucide="file-check" class="w-5 h-5"></i>
-                </div>
-                <div class="text-xs">
-                    <div class="font-bold text-slate-900">Сертификаты ГОСТ</div>
-                    <div class="text-slate-500">Паспорт качества на каждую отгружаемую партию</div>
-                </div>
+        <!-- Хлебные крошки -->
+        <div class="text-[12px] text-slate-400 font-medium mb-3">Главная</div>
+
+        <!-- ГЛАВНАЯ ФОТО-ГАЛЕРЕЯ (СЛАЙДЕР МОДУЛЬНОГО ДОМА) -->
+        <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200/60 mb-6">
+            <img 
+                id="heroImage"
+                src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80" 
+                alt="Модульный дом МонолитСтрой" 
+                class="w-full h-full object-cover transition-opacity duration-300"
+            >
+            <!-- Полоски-индикаторы слайдера -->
+            <div class="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-2 z-10">
+                <button onclick="setSlide(0)" class="slide-indicator w-8 h-1 rounded-full bg-white transition-all"></button>
+                <button onclick="setSlide(1)" class="slide-indicator w-8 h-1 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(2)" class="slide-indicator w-8 h-1 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(3)" class="slide-indicator w-8 h-1 rounded-full bg-white/40 transition-all"></button>
             </div>
         </div>
 
-        <div class="flex items-center justify-between mb-4">
-            <div>
-                <h1 class="text-lg sm:text-xl font-bold text-slate-900">Прайс-лист строительных материалов</h1>
-                <p class="text-xs text-slate-500 mt-0.5">Цены указаны с учетом НДС 20%. Наличие обновлено 10 минут назад.</p>
+        <!-- ЗАГОЛОВОК И СЛОГАН -->
+        <div class="mb-5">
+            <h1 class="text-[26px] sm:text-3xl font-extrabold text-slate-900 leading-[1.2] tracking-tight">
+                Каркасно-модульные дома «под ключ» в СПб и Ленобласти
+            </h1>
+            <p class="font-script text-2xl sm:text-3xl text-forest-500 font-semibold mt-1">
+                вы придумываете — мы реализуем
+            </p>
+        </div>
+
+        <!-- ПЛАШКИ-БЕЙДЖИ ПРЕИМУЩЕСТВ -->
+        <div class="flex flex-wrap gap-2 mb-5">
+            <div class="px-3.5 py-2 bg-limeBadge border border-emerald-200/50 rounded-xl text-xs font-bold text-forest-700">
+                от 899 000 ₽ с доставкой до 50 км
             </div>
-            <span id="productCounter" class="text-xs font-mono font-medium bg-slate-200 text-slate-700 px-2 py-1 rounded">8 позиций</span>
+            <div class="px-3.5 py-2 bg-limeBadge border border-emerald-200/50 rounded-xl text-xs font-bold text-forest-700">
+                дом за месяц
+            </div>
+            <div class="px-3.5 py-2 bg-limeBadge border border-emerald-200/50 rounded-xl text-xs font-bold text-forest-700">
+                гарантия 5 лет на каркас
+            </div>
         </div>
 
-        <!-- СЕТКА КАРТОЧЕК ТОВАРОВ (БЕЗ ФОТОГРАФИЙ, СТРОГИЙ B2B-ВИД) -->
-        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Генерируется через JS -->
+        <!-- КНОПКИ ДЕЙСТВИЯ -->
+        <div class="space-y-3 mb-6">
+            <a href="#projects" class="block w-full py-4 text-center text-sm font-bold text-white bg-forest-500 hover:bg-forest-600 rounded-2xl transition-all shadow-sm active:scale-[0.99]">
+                Проекты
+            </a>
+            <a href="#contact-block" class="block w-full py-4 text-center text-sm font-bold text-forest-600 bg-white border-2 border-forest-600 rounded-2xl transition-all hover:bg-forest-50 active:scale-[0.99]">
+                Приехать посмотреть
+            </a>
         </div>
 
-        <!-- СТРОИТЕЛЬНЫЙ КАЛЬКУЛЯТОР -->
-        <section id="calculator" class="mt-12 bg-white border border-slate-300 rounded p-5 sm:p-6 shadow-sm">
-            <div class="max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-amber-100 text-amber-800 rounded text-xs font-semibold mb-3">
-                    <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
-                    Инженерный инструмент
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">Калькулятор расхода стяжки пола</h2>
-                <p class="text-xs text-slate-600 mt-1 mb-5">
-                    Быстрый расчет необходимого объема ровнителя на основе расхода сухой смеси (~1.8 кг на 1 м² при толщине слоя 1 мм).
-                </p>
+        <!-- РЕЙТИНГ ОТЗЫВОВ -->
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-800 mb-6">
+            <span class="text-forest-600 text-sm">★</span>
+            <span>4,9 · 88 отзывов по двум площадкам на Яндекс.Картах</span>
+        </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded border border-slate-200">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Площадь помещения (м²)</label>
-                        <div class="relative">
-                            <input type="number" id="calcArea" value="45" min="1" max="1000" class="w-full bg-white border border-slate-300 text-sm font-mono rounded px-3 py-2 pr-8 focus:outline-none focus:border-brand-orange">
-                            <span class="absolute right-3 top-2 text-xs text-slate-400 font-medium">м²</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Толщина слоя заливки (мм)</label>
-                        <div class="relative">
-                            <input type="number" id="calcThickness" value="30" min="5" max="100" class="w-full bg-white border border-slate-300 text-sm font-mono rounded px-3 py-2 pr-8 focus:outline-none focus:border-brand-orange">
-                            <span class="absolute right-3 top-2 text-xs text-slate-400 font-medium">мм</span>
-                        </div>
+        <!-- ФОРМА «ЗАКАЗАТЬ ЗВОНОК» -->
+        <section id="contact-block" class="bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-6 shadow-sm mb-10">
+            <h2 class="text-xl font-extrabold text-forest-700 mb-4">
+                Заказать звонок
+            </h2>
+            <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
+                <div>
+                    <input 
+                        type="text" 
+                        required 
+                        placeholder="Имя" 
+                        class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-forest-500 transition-colors"
+                    >
+                </div>
+                <div>
+                    <input 
+                        type="tel" 
+                        id="phoneInput" 
+                        required 
+                        placeholder="+7 (___) ___-__-__" 
+                        class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-forest-500 transition-colors"
+                    >
+                </div>
+                <div class="flex items-center gap-2.5 pt-1">
+                    <input type="checkbox" id="consent" required class="w-4 h-4 rounded border-slate-300 text-forest-600 focus:ring-forest-500">
+                    <label for="consent" class="text-[11px] text-slate-500 select-none">
+                        Согласие на <span class="underline text-slate-700">обработку данных</span>
+                    </label>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-4 text-center text-sm font-bold text-white bg-forest-600 hover:bg-forest-700 rounded-2xl transition-all shadow-sm active:scale-[0.99]">
+                        Отправить
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ВКЛАДКИ КАТЕГОРИЙ ПРОЕКТОВ -->
+        <section id="projects" class="pt-2 mb-10">
+            <div class="flex items-center justify-between gap-2 border-b border-slate-200 pb-3 mb-5 overflow-x-auto">
+                <button onclick="switchTab('houses')" id="tab-houses" class="tab-btn active text-sm font-extrabold text-forest-700 pb-1 border-b-2 border-forest-600 shrink-0">
+                    Модульные дома
+                </button>
+                <button onclick="switchTab('saunas')" id="tab-saunas" class="tab-btn text-sm font-bold text-slate-400 pb-1 hover:text-slate-700 shrink-0">
+                    Бани
+                </button>
+                <button onclick="switchTab('cabins')" id="tab-cabins" class="tab-btn text-sm font-bold text-slate-400 pb-1 hover:text-slate-700 shrink-0">
+                    Бытовки и хозблоки
+                </button>
+            </div>
+
+            <!-- КАРТОЧКА ПРОЕКТА -->
+            <div id="projectCard" class="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs">
+                <div class="aspect-[16/10] overflow-hidden relative">
+                    <img id="projectImg" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80" alt="Проект" class="w-full h-full object-cover">
+                    <div id="projectBadge" class="absolute top-3 left-3 bg-forest-700 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
+                        Хит продаж
                     </div>
                 </div>
-
-                <div class="mt-4 flex flex-wrap items-center justify-between gap-4 p-4 bg-slate-900 text-white rounded">
-                    <div>
-                        <div class="text-[11px] text-slate-400 uppercase tracking-wider">Требуемый объем:</div>
-                        <div class="flex items-baseline gap-2 mt-0.5">
-                            <span id="calcBags" class="text-2xl font-black font-mono text-brand-orange">98</span>
-                            <span class="text-xs text-slate-300 font-medium">мешков по 25 кг (<span id="calcTotalKg" class="font-mono">2 430</span> кг)</span>
+                <div class="p-4 sm:p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 id="projectTitle" class="text-base font-extrabold text-slate-900">Модульный дом «Сканди-42»</h3>
+                            <p id="projectSpecs" class="text-xs text-slate-400 mt-0.5">42 м² · 2 спальни · Терраса 14 м²</p>
+                        </div>
+                        <div id="projectPrice" class="text-right font-extrabold text-forest-600 text-base">
+                            от 1 450 000 ₽
                         </div>
                     </div>
-                    <button onclick="addCalculatedToCart()" class="px-4 py-2.5 bg-brand-orange hover:bg-brand-orangeDark text-white text-xs font-bold rounded flex items-center gap-2 transition-all active:scale-95">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        Добавить расчетную партию в накладную
+                    <p id="projectDesc" class="text-xs text-slate-500 leading-relaxed mb-4">
+                        Теплый дом для круглогодичного проживания с чистовой отделкой, скрытой электрикой, разводкой труб и панорамным остеклением.
+                    </p>
+                    <button onclick="requestProjectQuote()" class="w-full py-3 bg-slate-100 hover:bg-forest-50 hover:text-forest-600 text-slate-800 text-xs font-bold rounded-xl transition-colors">
+                        Рассчитать стоимость с доставкой
                     </button>
                 </div>
             </div>
@@ -255,550 +252,132 @@
 
     </main>
 
-    <!-- ПОДВАЛ -->
-    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 text-xs py-8 px-4 mt-12">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="w-6 h-6 bg-brand-orange text-white text-xs font-bold flex items-center justify-center rounded">МС</span>
-                    <span class="font-bold text-white text-sm">ООО «МОНОЛИТ СТРОЙ СНАБЖЕНИЕ»</span>
-                </div>
-                <p class="text-slate-400 text-xs leading-relaxed max-w-md">
-                    Комплексное снабжение жилых, коммерческих и промышленных строек. Прямые дилерские контракты с заводами-производителями. Все цены на сайте актуальны и включают НДС 20%.
-                </p>
-                <div class="mt-3 font-mono text-[11px] text-slate-400">
-                    ИНН: 7724910284 / ОГРН: 1187746819201
-                </div>
-            </div>
-            <div>
-                <div class="font-bold text-white uppercase text-[11px] tracking-wider mb-2">Склады и самовывоз</div>
-                <ul class="space-y-1.5 text-slate-400">
-                    <li>Склад «Юг»: МКАД 32-й км, промзона 4Б</li>
-                    <li>Склад «Север»: г. Мытищи, Силикатная 19</li>
-                    <li>Круглосуточный въезд для большегрузов</li>
-                </ul>
-            </div>
-            <div>
-                <div class="font-bold text-white uppercase text-[11px] tracking-wider mb-2">Прямая связь</div>
-                <ul class="space-y-1.5 text-slate-400 font-mono">
-                    <li>Тел: +7 (495) 912-44-00</li>
-                    <li>Почта: opt@monolit-snab.ru</li>
-                    <li>Пн–Сб: с 07:00 до 21:00</li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto border-t border-slate-800 mt-6 pt-4 text-center text-slate-400 text-[11px]">
-            © 2026 ТК «МОНОЛИТ СТРОЙ». Учебный проект для портфолио веб-разработчика.
-        </div>
-    </footer>
+    <!-- ПЛАВАЮЩИЕ КНОПКИ В СТИЛЕ ОРИГИНАЛА -->
+    <!-- Левая: Зеленая кнопка мессенджера -->
+    <a href="https://wa.me/" target="_blank" class="fixed bottom-5 left-4 z-40 w-12 h-12 rounded-full bg-forest-500 text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+        <i data-lucide="message-circle" class="w-6 h-6 fill-white"></i>
+    </a>
 
-    <!-- ВЫЕЗЖАЮЩАЯ КОРЗИНА (FLYOUT DRAWER) -->
-    <!-- Класс invisible гарантирует отсутствие сдвига по горизонтали на смартфонах -->
-    <div id="cartModal" class="fixed inset-0 z-50 invisible transition-all duration-300">
-        <!-- Фон-затемнение -->
-        <div id="cartOverlay" class="absolute inset-0 bg-slate-900/60 opacity-0 transition-opacity duration-300"></div>
+    <!-- Правая: Графитовая кнопка письма/заявки -->
+    <a href="#contact-block" class="fixed bottom-5 right-4 z-40 w-12 h-12 rounded-full bg-slate-800 text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+        <i data-lucide="mail" class="w-5 h-5"></i>
+    </a>
 
-        <!-- Сама панель корзины -->
-        <div id="cartDrawer" class="absolute top-0 right-0 w-full max-w-md h-full bg-white shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-in-out">
-            
-            <!-- Шапка корзины -->
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="clipboard-list" class="w-5 h-5 text-brand-orange"></i>
-                    <div>
-                        <h3 class="font-bold text-sm text-slate-900">Товарная накладная</h3>
-                        <p class="text-[11px] text-slate-500">Спецификация к заказу</p>
-                    </div>
-                </div>
-                <button id="closeCartBtn" class="p-1.5 hover:bg-slate-200 text-slate-500 rounded transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <!-- Список товаров -->
-            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3">
-                <!-- Заполняется динамически -->
-            </div>
-
-            <!-- Итоги и расчет транспорта -->
-            <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
-                
-                <!-- Логистический индикатор массы -->
-                <div class="bg-white p-3 rounded border border-slate-200">
-                    <div class="flex justify-between items-center text-xs mb-1">
-                        <span class="text-slate-500">Общая масса заказа:</span>
-                        <span id="cartTotalWeight" class="font-bold font-mono text-slate-900">0 кг</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-[11px] text-slate-600 bg-slate-100 p-2 rounded">
-                        <i data-lucide="truck" class="w-4 h-4 text-brand-orange shrink-0"></i>
-                        <span id="logisticsAdvice">Добавьте товары для расчета транспорта</span>
-                    </div>
-                </div>
-
-                <!-- Финансовый итог -->
-                <div class="flex justify-between items-baseline pt-1">
-                    <span class="text-sm font-semibold text-slate-700">Итого с НДС:</span>
-                    <span id="cartTotalPrice" class="text-xl font-bold font-mono text-slate-900">0 ₽</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button onclick="clearCart()" class="py-2.5 px-3 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded text-xs font-semibold transition-colors">
-                        Очистить
-                    </button>
-                    <button onclick="checkoutOrder()" class="py-2.5 px-3 bg-brand-orange hover:bg-brand-orangeDark text-white rounded text-xs font-bold transition-all shadow-sm">
-                        Оформить заказ
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ (ТОСТ) -->
-    <div id="toast" class="fixed bottom-4 right-4 z-50 bg-slate-900 text-white px-4 py-2.5 rounded shadow-lg text-xs font-medium flex items-center gap-2 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
-        <span id="toastMsg">Товар добавлен в накладную</span>
-    </div>
-
-    <!-- СЦЕНАРИИ JS -->
     <script>
-        // БАЗА ТОВАРОВ (Строгий B2B-каталог без изображений)
-        const products = [
-            {
-                id: 1,
-                art: 'М-300-ПБ',
-                name: 'Пескобетон М-300 крупнофракционный (ГОСТ 28013)',
-                category: 'dry-mix',
-                unit: 'мешок 40 кг',
-                weightKg: 40,
-                price: 265,
-                stock: 1420,
-                status: 'В наличии (Склад Юг)',
-                desc: 'Для первичной заливки стяжек, фундаментов, монтажа ЖБИ конструкций.'
-            },
-            {
-                id: 2,
-                art: 'ГИПС-СЛОЙ-30',
-                name: 'Штукатурка гипсовая серая «Волма Слой»',
-                category: 'dry-mix',
-                unit: 'мешок 30 кг',
-                weightKg: 30,
-                price: 495,
-                stock: 680,
-                status: 'В наличии (Склад Юг)',
-                desc: 'Ручное выравнивание стен и потолков внутри сухих помещений.'
-            },
-            {
-                id: 3,
-                art: 'КЛЕЙ-ПЛИТ-25',
-                name: 'Клей плиточный усиленный Ceresit СМ 14 Extra (C1 TE)',
-                category: 'dry-mix',
-                unit: 'мешок 25 кг',
-                weightKg: 25,
-                price: 720,
-                stock: 310,
-                status: 'В наличии (Склад Север)',
-                desc: 'Для укладки керамогранита и плитки на полы с подогревом.'
-            },
-            {
-                id: 4,
-                art: 'ГКЛВ-12.5',
-                name: 'Гипсокартон влагостойкий Knauf ГСП-H2 2500×1200×12.5 мм',
-                category: 'sheet',
-                unit: 'лист (3 м²)',
-                weightKg: 29,
-                price: 540,
-                stock: 450,
-                status: 'В наличии (Склад Юг)',
-                desc: 'Для перегородок и облицовки стен в санузлах, кухнях и влажных зонах.'
-            },
-            {
-                id: 5,
-                art: 'ПРОФ-ПН-75',
-                name: 'Профиль направляющий потолочный ПН 75×40 (0.6 мм оцинк.)',
-                category: 'sheet',
-                unit: 'хлыст 3 м',
-                weightKg: 2.1,
-                price: 315,
-                stock: 890,
-                status: 'В наличии',
-                desc: 'Толщина стали 0.6 мм. Жесткая геометрия для каркасов перегородок.'
-            },
-            {
-                id: 6,
-                art: 'МИНВАТА-ТЕХНО',
-                name: 'Утеплитель минераловатный ТехноНИКОЛЬ Роклайт 1200×600×50 мм',
-                category: 'insulation',
-                unit: 'пачка (8.64 м²)',
-                weightKg: 13,
-                price: 1180,
-                stock: 215,
-                status: 'В наличии',
-                desc: 'Базальтовая негорючая плита. Плотность 35 кг/м³. Звуко- и теплоизоляция.'
-            },
-            {
-                id: 7,
-                art: 'ЭППС-ПЕНО-50',
-                name: 'Экструдированный пенополистирол Пеноплэкс Комфорт 50 мм',
-                category: 'insulation',
-                unit: 'пачка (4.85 м²)',
-                weightKg: 8.5,
-                price: 1650,
-                stock: 140,
-                status: 'В наличии (Склад Север)',
-                desc: 'Нулевое водопоглощение. Для утепления цоколей, отмосток и нагружаемых полов.'
-            },
-            {
-                id: 8,
-                art: 'САМОРЕЗ-3.5-35',
-                name: 'Саморезы по металлу гипсокартонные 3.5×35 мм (фосфат)',
-                category: 'fasteners',
-                unit: 'коробка (1000 шт)',
-                weightKg: 1.6,
-                price: 430,
-                stock: 520,
-                status: 'В наличии',
-                desc: 'Острый наконечник, частая резьба, вороненая антикоррозийная сталь.'
-            }
+        // Изображения для слайдера
+        const slides = [
+            "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
         ];
+        let currentSlide = 0;
 
-        // СОСТОЯНИЕ КОРЗИНЫ
-        let cart = [];
-
-        // РЕНДЕР КАРТОЧЕК
-        function renderProducts(items) {
-            const grid = document.getElementById('productsGrid');
-            const counter = document.getElementById('productCounter');
-            grid.innerHTML = '';
-            counter.innerText = `${items.length} позиций`;
-
-            if (items.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500 bg-white border border-dashed border-slate-300 rounded">
-                        <i data-lucide="package-search" class="w-8 h-8 mx-auto mb-2 text-slate-400"></i>
-                        По вашему запросу материалов не найдено. Проверьте артикул или категорию.
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            items.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 rounded hover:border-slate-400 transition-all p-4 flex flex-col justify-between shadow-xs";
-                card.innerHTML = `
-                    <div>
-                        <!-- Верхняя плашка артикула и остатка -->
-                        <div class="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-100">
-                            <span class="font-mono text-[11px] font-bold bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded tracking-wider">${p.art}</span>
-                            <span class="text-[11px] font-medium text-emerald-700 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                ${p.stock} ед.
-                            </span>
-                        </div>
-
-                        <!-- Название -->
-                        <h3 class="text-sm font-bold text-slate-900 leading-snug line-clamp-2" title="${p.name}">
-                            ${p.name}
-                        </h3>
-
-                        <!-- Описание -->
-                        <p class="text-[11px] text-slate-500 mt-2 line-clamp-2 leading-relaxed">
-                            ${p.desc}
-                        </p>
-
-                        <!-- Технические параметры -->
-                        <div class="mt-3 bg-slate-50 p-2 rounded text-[11px] space-y-1 text-slate-600 font-mono">
-                            <div class="flex justify-between">
-                                <span class="text-slate-400 font-sans">Фасовка:</span>
-                                <span>${p.unit}</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-slate-400 font-sans">Вес единицы:</span>
-                                <span>${p.weightKg} кг</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Нижняя часть с ценой и кнопкой -->
-                    <div class="mt-4 pt-3 border-t border-slate-100">
-                        <div class="flex items-baseline justify-between mb-3">
-                            <div class="text-[11px] text-slate-400">Цена за шт:</div>
-                            <div class="text-right">
-                                <span class="text-lg font-black font-mono text-slate-900">${p.price.toLocaleString('ru-RU')} ₽</span>
-                                <span class="text-[10px] text-slate-400 block -mt-1">с НДС</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <input 
-                                type="number" 
-                                id="qty-${p.id}" 
-                                value="1" 
-                                min="1" 
-                                max="${p.stock}" 
-                                class="w-14 bg-slate-50 border border-slate-300 text-xs font-mono rounded px-2 py-2 text-center focus:outline-none focus:border-brand-orange"
-                            >
-                            <button 
-                                onclick="addToCart(${p.id})" 
-                                class="flex-1 bg-slate-900 hover:bg-brand-orange text-white text-xs font-semibold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors"
-                            >
-                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                                В накладную
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            lucide.createIcons();
-        }
-
-        // ФИЛЬТРАЦИЯ
-        function filterCategory(cat) {
-            document.querySelectorAll('.cat-pill').forEach(btn => {
-                btn.className = "cat-pill px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 hover:border-slate-400 shrink-0";
-            });
-            event.target.className = "cat-pill px-2.5 py-1 rounded bg-slate-900 text-white shrink-0";
-
-            if (cat === 'all') {
-                renderProducts(products);
-            } else {
-                const filtered = products.filter(p => p.category === cat);
-                renderProducts(filtered);
-            }
-        }
-
-        // ПОИСК
-        function initSearch() {
-            const handleSearch = (e) => {
-                const val = e.target.value.toLowerCase().trim();
-                const matched = products.filter(p => 
-                    p.name.toLowerCase().includes(val) || 
-                    p.art.toLowerCase().includes(val) ||
-                    p.desc.toLowerCase().includes(val)
-                );
-                renderProducts(matched);
-            };
-
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-            document.getElementById('searchInputMobile').addEventListener('input', handleSearch);
-        }
-
-        // ЛОГИКА КОРЗИНЫ
-        function addToCart(productId, customQty = null) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            let qtyInput = document.getElementById(`qty-${productId}`);
-            let qty = customQty !== null ? customQty : (qtyInput ? parseInt(qtyInput.value) || 1 : 1);
-            if (qty < 1) qty = 1;
-
-            const existingIndex = cart.findIndex(item => item.id === productId);
-            if (existingIndex > -1) {
-                cart[existingIndex].qty += qty;
-            } else {
-                cart.push({
-                    ...product,
-                    qty: qty
-                });
-            }
-
-            updateCartUI();
-            showToast(`«${product.art}» добавлен (${qty} шт.)`);
-        }
-
-        function changeCartQty(productId, delta) {
-            const item = cart.find(i => i.id === productId);
-            if (!item) return;
-
-            item.qty += delta;
-            if (item.qty <= 0) {
-                cart = cart.filter(i => i.id !== productId);
-            }
-            updateCartUI();
-        }
-
-        function removeCartItem(productId) {
-            cart = cart.filter(i => i.id !== productId);
-            updateCartUI();
-        }
-
-        function clearCart() {
-            cart = [];
-            updateCartUI();
-            showToast('Накладная очищена');
-        }
-
-        function updateCartUI() {
-            const countBadge = document.getElementById('cartCountBadge');
-            const container = document.getElementById('cartItemsContainer');
-            const totalWeightEl = document.getElementById('cartTotalWeight');
-            const totalPriceEl = document.getElementById('cartTotalPrice');
-            const adviceEl = document.getElementById('logisticsAdvice');
-
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const totalWeight = cart.reduce((sum, item) => sum + (item.weightKg * item.qty), 0);
-
-            countBadge.innerText = totalCount;
-
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-center text-slate-400 py-12">
-                        <i data-lucide="shopping-bag" class="w-12 h-12 text-slate-300 mb-3"></i>
-                        <p class="text-xs">В накладной пока нет позиций.</p>
-                        <p class="text-[11px] text-slate-400 mt-1">Добавьте нужные материалы из каталога выше.</p>
-                    </div>
-                `;
-                totalWeightEl.innerText = '0 кг';
-                totalPriceEl.innerText = '0 ₽';
-                adviceEl.innerText = 'Добавьте товары для расчета транспорта';
-                lucide.createIcons();
-                return;
-            }
-
-            container.innerHTML = '';
-            cart.forEach(item => {
-                const row = document.createElement('div');
-                row.className = "p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-2";
-                row.innerHTML = `
-                    <div class="flex justify-between items-start gap-2">
-                        <div>
-                            <span class="font-mono font-bold text-[10px] bg-white border border-slate-300 px-1 rounded text-slate-600">${item.art}</span>
-                            <div class="font-semibold text-slate-900 mt-1">${item.name}</div>
-                        </div>
-                        <button onclick="removeCartItem(${item.id})" class="text-slate-400 hover:text-red-600 p-1">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60 font-mono">
-                        <div class="flex items-center border border-slate-300 rounded bg-white">
-                            <button onclick="changeCartQty(${item.id}, -1)" class="px-2 py-0.5 text-slate-600 hover:bg-slate-100">-</button>
-                            <span class="px-2 py-0.5 font-bold text-slate-800 text-[11px]">${item.qty}</span>
-                            <button onclick="changeCartQty(${item.id}, 1)" class="px-2 py-0.5 text-slate-600 hover:bg-slate-100">+</button>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-bold text-slate-900">${(item.price * item.qty).toLocaleString('ru-RU')} ₽</div>
-                            <div class="text-[10px] text-slate-400 font-sans">${(item.weightKg * item.qty).toFixed(0)} кг</div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-
-            // Форматирование веса
-            if (totalWeight >= 1000) {
-                totalWeightEl.innerText = `${(totalWeight / 1000).toFixed(2)} тн (${totalWeight.toLocaleString('ru-RU')} кг)`;
-            } else {
-                totalWeightEl.innerText = `${totalWeight.toLocaleString('ru-RU')} кг`;
-            }
-
-            totalPriceEl.innerText = `${totalPrice.toLocaleString('ru-RU')} ₽`;
-
-            // Рекомендация транспорта
-            if (totalWeight === 0) {
-                adviceEl.innerText = 'Добавьте товары для расчета транспорта';
-            } else if (totalWeight <= 800) {
-                adviceEl.innerHTML = '<strong>Легковой каблук / Lada Largus</strong> (до 800 кг)';
-            } else if (totalWeight <= 1500) {
-                adviceEl.innerHTML = '<strong>Газель Next 3м</strong> (до 1.5 тонны)';
-            } else if (totalWeight <= 3000) {
-                adviceEl.innerHTML = '<strong>Валдай / ГАЗон Next</strong> (до 3 тонн)';
-            } else if (totalWeight <= 5000) {
-                adviceEl.innerHTML = '<strong>Манипулятор 5т</strong> с разгрузкой стрелой';
-            } else if (totalWeight <= 10000) {
-                adviceEl.innerHTML = '<strong>КамАЗ борт / Манипулятор 10т</strong>';
-            } else {
-                adviceEl.innerHTML = '<strong>Тягач / Шаланда 20 тонн</strong> (открытый борт)';
-            }
-
-            lucide.createIcons();
-        }
-
-        // МОДАЛЬНОЕ ОКНО КОРЗИНЫ
-        const cartModal = document.getElementById('cartModal');
-        const cartOverlay = document.getElementById('cartOverlay');
-        const cartDrawer = document.getElementById('cartDrawer');
-
-        function openCart() {
-            cartModal.classList.remove('invisible');
+        function setSlide(index) {
+            currentSlide = index;
+            const img = document.getElementById('heroImage');
+            img.style.opacity = '0.4';
             setTimeout(() => {
-                cartOverlay.classList.remove('opacity-0');
-                cartDrawer.classList.remove('translate-x-full');
-            }, 10);
+                img.src = slides[index];
+                img.style.opacity = '1';
+            }, 150);
+
+            document.querySelectorAll('.slide-indicator').forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.className = "slide-indicator w-8 h-1 rounded-full bg-white transition-all";
+                } else {
+                    dot.className = "slide-indicator w-8 h-1 rounded-full bg-white/40 transition-all";
+                }
+            });
         }
 
-        function closeCart() {
-            cartOverlay.classList.add('opacity-0');
-            cartDrawer.classList.add('translate-x-full');
-            setTimeout(() => {
-                cartModal.classList.add('invisible');
-            }, 300);
-        }
+        // Авто-переключение слайдов каждые 5 секунд
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            setSlide(currentSlide);
+        }, 5000);
 
-        document.getElementById('openCartBtn').addEventListener('click', openCart);
-        document.getElementById('closeCartBtn').addEventListener('click', closeCart);
-        cartOverlay.addEventListener('click', closeCart);
-
-        // КАЛЬКУЛЯТОР СТЯЖКИ
-        function updateCalculator() {
-            const area = parseFloat(document.getElementById('calcArea').value) || 0;
-            const thickness = parseFloat(document.getElementById('calcThickness').value) || 0;
-            
-            // Формула расхода: 1.8 кг на 1 м2 на 1 мм слоя
-            const totalKg = area * thickness * 1.8;
-            const bags = Math.ceil(totalKg / 25); // мешки по 25 кг
-
-            document.getElementById('calcBags').innerText = bags;
-            document.getElementById('calcTotalKg').innerText = Math.round(totalKg).toLocaleString('ru-RU');
-        }
-
-        document.getElementById('calcArea').addEventListener('input', updateCalculator);
-        document.getElementById('calcThickness').addEventListener('input', updateCalculator);
-
-        function addCalculatedToCart() {
-            const area = parseFloat(document.getElementById('calcArea').value) || 0;
-            const thickness = parseFloat(document.getElementById('calcThickness').value) || 0;
-            const bags = Math.ceil((area * thickness * 1.8) / 25);
-
-            if (bags <= 0) return;
-
-            // Добавляем Пескобетон (id: 1)
-            addToCart(1, bags);
-            openCart();
-        }
-
-        // ТОСТ
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toastMsg');
-            msgEl.innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
-        }
-
-        function checkoutOrder() {
-            if (cart.length === 0) {
-                alert('Накладная пуста. Добавьте материалы для оформления.');
-                return;
+        // Маска для номера телефона
+        const phoneInput = document.getElementById('phoneInput');
+        phoneInput.addEventListener('input', function (e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            if (!x[2]) {
+                e.target.value = x[1] ? '+7 (' : '';
+            } else {
+                e.target.value = !x[3] ? `+7 (${x[2]}` : `+7 (${x[2]}) ${x[3]}` + (x[4] ? `-${x[4]}` : '') + (x[5] ? `-${x[5]}` : '');
             }
-            alert(`Спецификация сформирована!\nПозиций: ${cart.length}\nСумма: ${document.getElementById('cartTotalPrice').innerText}\nМенеджер свяжется для выставления счета по ЭДО.`);
-            clearCart();
-            closeCart();
+        });
+
+        // Данные для вкладок каталога
+        const catalogData = {
+            houses: {
+                title: "Модульный дом «Сканди-42»",
+                specs: "42 м² · 2 спальни · Терраса 14 м²",
+                price: "от 1 450 000 ₽",
+                desc: "Теплый дом для круглогодичного проживания с чистовой отделкой, скрытой электрикой, разводкой труб и панорамным остеклением.",
+                img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+                badge: "Хит продаж"
+            },
+            saunas: {
+                title: "Модульная баня «Кедр-Премиум»",
+                specs: "18 м² · Парная 6 м² · Комната отдыха",
+                price: "от 780 000 ₽",
+                desc: "Готовая баня с дровяной печью, баком для воды, панорамным окном в парной и террасой из лиственницы.",
+                img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+                badge: "Сборка 1 день"
+            },
+            cabins: {
+                title: "Утепленный блок-модуль «Комфорт»",
+                specs: "15 м² · 6×2.4 м · Утепление 100 мм",
+                price: "от 320 000 ₽",
+                desc: "Надежный хозблок или дачная бытовка на металлическом швеллере с электрикой, окном ПВХ и чистовым полом.",
+                img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                badge: "В наличии"
+            }
+        };
+
+        function switchTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn text-sm font-bold text-slate-400 pb-1 hover:text-slate-700 shrink-0";
+            });
+            const activeBtn = document.getElementById(`tab-${type}`);
+            activeBtn.className = "tab-btn active text-sm font-extrabold text-forest-700 pb-1 border-b-2 border-forest-600 shrink-0";
+
+            const data = catalogData[type];
+            document.getElementById('projectTitle').innerText = data.title;
+            document.getElementById('projectSpecs').innerText = data.specs;
+            document.getElementById('projectPrice').innerText = data.price;
+            document.getElementById('projectDesc').innerText = data.desc;
+            document.getElementById('projectImg').src = data.img;
+            document.getElementById('projectBadge').innerText = data.badge;
         }
 
-        // Инициализация при старте
+        // Меню
+        const mobileMenu = document.getElementById('mobileMenu');
+        function toggleMenu() {
+            if (mobileMenu.classList.contains('-translate-y-full')) {
+                mobileMenu.classList.remove('-translate-y-full');
+            } else {
+                mobileMenu.classList.add('-translate-y-full');
+            }
+        }
+        document.getElementById('openMenuBtn').addEventListener('click', toggleMenu);
+        document.getElementById('closeMenuBtn').addEventListener('click', toggleMenu);
+
+        // Обработка формы
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert("Спасибо за заявку! Инженер компании МонолитСтрой свяжется с вами в течение 10 минут.");
+            e.target.reset();
+        }
+
+        function requestProjectQuote() {
+            document.getElementById('contact-block').scrollIntoView({ behavior: 'smooth' });
+            phoneInput.focus();
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            renderProducts(products);
-            initSearch();
-            updateCalculator();
-            updateCartUI();
+            lucide.createIcons();
         });
     </script>
 </body>
